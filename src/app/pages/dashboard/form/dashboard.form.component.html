@@ -1,0 +1,577 @@
+<div class="page-title">
+	<h2 *ngIf="!edit">Creating a new Dashboard Widget</h2>
+	<h2 *ngIf="edit">Editing Dashboard Widget: {{data.id}}</h2>
+</div>
+<div class="col-4">
+	<form #form (ngSubmit)="submit($event)">
+		<nb-tabset>
+			<nb-tab tabTitle="Details">
+				<div class="form-control-group">
+			    <label class="label" for="input-name">Name:</label>
+			    <input nbInput
+								fullWidth
+								[(ngModel)]="data.dsl.details.name"
+								#name="ngModel"
+								name="name"
+								id="input-name"
+								pattern=".\w+"
+								placeholder="Name"
+								autofocus
+								[status]="name.dirty ? (name.invalid  ? 'danger' : 'success') : ''"
+								[required]="true"
+								[attr.aria-invalid]="name.invalid && name.touched ? true : null">
+			    <ng-container *ngIf="name.invalid && name.touched">
+			      <p class="error-message" *ngIf="name.errors?.required">Name is required!</p>
+			      <p class="error-message" *ngIf="name.errors?.pattern">Name should be the real one!</p>
+			    </ng-container>
+			  </div>
+
+			  <div class="form-control-group">
+			    <label class="label" for="input-description">Description:</label>
+			    <textarea nbInput
+						fullWidth
+						[(ngModel)]="data.dsl.details.Description"
+						#description="ngModel"
+						name="description"
+						id="input-description"
+						pattern=".\w+.\d+"
+						placeholder="Description"
+						autofocus
+						[status]="description.dirty ? (description.invalid  ? 'danger' : 'success') : ''"
+						[required]="false"
+						[attr.aria-invalid]="description.invalid && description.touched ? true : null">
+					</textarea>
+			    <ng-container *ngIf="description.invalid && description.touched">
+			      <p class="error-message" *ngIf="description.errors?.required">Description is required!</p>
+			      <p class="error-message" *ngIf="description.errors?.pattern">Description should be the real one!</p>
+			    </ng-container>
+			  </div>
+
+			  <div class="form-control-group">
+			    <label class="label" for="input-height">Height:</label>
+			    <input nbInput
+						type="number"
+						fullWidth
+						[(ngModel)]="data.dsl.details.height"
+						#height="ngModel"
+						name="height"
+						id="input-height"
+						pattern=".\d+"
+						placeholder="height"
+						autofocus
+						[status]="height.dirty ? (height.invalid  ? 'danger' : 'success') : ''"
+						[required]="getConfigValue('forms.validation.height.required')"
+						[attr.aria-invalid]="height.invalid && height.touched ? true : null">
+			    <ng-container *ngIf="height.invalid && height.touched">
+			      <p class="error-message" *ngIf="height.errors?.required">Height is required!</p>
+			      <p class="error-message" *ngIf="height.errors?.pattern">Height should be the real one!</p>
+			    </ng-container>
+			  </div>
+
+			  <div class="form-control-group">
+			    <label class="label" for="input-width">Width:</label>
+			    <input nbInput
+						type="number"
+						fullWidth
+						[(ngModel)]="data.dsl.details.width"
+						#width="ngModel"
+						name="width"
+						id="input-width"
+						pattern=".\d+"
+						placeholder="width"
+						autofocus
+						[status]="width.dirty ? (width.invalid  ? 'danger' : 'success') : ''"
+						[required]="getConfigValue('forms.validation.width.required')"
+						[attr.aria-invalid]="width.invalid && width.touched ? true : null">
+			    <ng-container *ngIf="width.invalid && width.touched">
+			      <p class="error-message" *ngIf="width.errors?.required">Width is required!</p>
+			      <p class="error-message" *ngIf="width.errors?.pattern">Width should be the real one!</p>
+			    </ng-container>
+			  </div>
+
+			  <div class="form-control-group">
+			    <label class="label" for="input-x">X:</label>
+			    <input nbInput
+			    			 type="number"
+			           fullWidth
+			           [(ngModel)]="data.dsl.details.x"
+			           #x="ngModel"
+			           name="x"
+			           id="input-x"
+			           pattern=".\d+"
+			           placeholder="x"
+			           autofocus
+			           [status]="x.dirty ? (x.invalid  ? 'danger' : 'success') : ''"
+			           [required]="true"
+			           [attr.aria-invalid]="x.invalid && x.touched ? true : null">
+			    <ng-container *ngIf="x.invalid && x.touched">
+			      <p class="error-message" *ngIf="x.errors?.required">X is required!</p>
+			      <p class="error-message" *ngIf="x.errors?.pattern">X should be the real one!</p>
+			    </ng-container>
+			  </div>
+
+			  <div class="form-control-group">
+			    <label class="label" for="input-y">Y:</label>
+			    <input nbInput 
+			    			 type="number"
+			           fullWidth
+			           [(ngModel)]="data.dsl.details.y"
+			           #y="ngModel"
+			           name="y"
+			           id="input-y"
+			           pattern=".\d+"
+			           placeholder="y"
+			           autofocus
+			           [status]="y.dirty ? (y.invalid  ? 'danger' : 'success') : ''"
+			           [required]="true"
+			           [attr.aria-invalid]="y.invalid && y.touched ? true : null">
+			    <ng-container *ngIf="y.invalid && y.touched">
+			      <p class="error-message" *ngIf="y.errors?.required">Y is required!</p>
+			      <p class="error-message" *ngIf="y.errors?.pattern">Y should be the real one!</p>
+			    </ng-container>
+			  </div>
+			</nb-tab>
+			<nb-tab tabTitle="Data">
+				<nb-accordion>
+					<!-- Datasource and Chart Type -->
+					<nb-accordion-item>
+					  <nb-accordion-item-header>Datasource and Chart Type</nb-accordion-item-header>
+					  <nb-accordion-item-body>
+					  	<div class="form-control-group">
+						    <label class="label" for="input-model">Model</label>
+						    <ng-select
+						      fullWidth
+						      [(ngModel)]="data.dsl.data.model"
+						      #model="ngModel"
+						      name="model"
+						      id="input-model"
+						      placeholder="Please select a Model"
+						      autofocus
+						      [items]="loadModels() | async"
+						      bindLabel="name"
+						      bindValue="id"
+						      [required]="true"
+						      [attr.aria-invalid]="model.invalid && model.touched ? true : null">
+						    </ng-select>
+						    <ng-container *ngIf="model.invalid && model.touched">
+						      <p class="error-message" *ngIf="model.errors?.required">Model is required!</p>
+						      <p class="error-message" *ngIf="model.errors?.pattern">Model should be selected!</p>
+						    </ng-container>
+						  </div>
+
+					    <div class="form-control-group">
+						    <label class="label" for="input-type">Type</label>
+						    <ng-select 
+						      fullWidth
+						      [(ngModel)]="data.dsl.data.type"
+						      #type="ngModel"
+						      name="type"
+						      id="input-type"
+						      placeholder="Please select a Type"
+						      autofocus
+						      [items]="widgetTypes"
+						      bindLabel="name"
+						      bindValue="value"
+						      [required]="true"
+						      [attr.aria-invalid]="type.invalid && type.touched ? true : null">
+						    </ng-select>
+						    <ng-container *ngIf="type.invalid && type.touched">
+						      <p class="error-message" *ngIf="type.errors?.required">Type is required!</p>
+						      <p class="error-message" *ngIf="type.errors?.pattern">Type should be selected!</p>
+						    </ng-container>
+						  </div>
+					  </nb-accordion-item-body>
+				 	</nb-accordion-item>
+
+				 	<!-- Time -->
+				 	<nb-accordion-item>
+					  <nb-accordion-item-header>Time</nb-accordion-item-header>
+					  <nb-accordion-item-body>
+					  	<div class="form-control-group">
+						    <label class="label" for="input-time-column">Time Column</label>
+						    <ng-select
+						      [(ngModel)]="data.dsl.data.time_col"
+						      #time_col="ngModel"
+						      name="time-column"
+						      id="input-time-column"
+						      placeholder="Please select a Time Column"
+						      autofocus
+						      [items]="loadFields() | async"
+						      bindLabel="string"
+						      bindValue="name"
+						      [required]="true"
+						      [attr.aria-invalid]="time_col.invalid && time_col.touched ? true : null">
+						    </ng-select>
+						    <ng-container *ngIf="time_col.invalid && time_col.touched">
+						      <p class="error-message" *ngIf="time_col.errors?.required">Time Column is required!</p>
+						      <p class="error-message" *ngIf="time_col.errors?.pattern">Time Column should be selected!</p>
+						    </ng-container>
+						  </div>
+
+						  <div class="form-control-group">
+						    <label class="label" for="input-time-grain">Time Grain</label>
+						    <ng-select 
+						      fullWidth
+						      [(ngModel)]="data.dsl.data.time_grain"
+						      #time_grain="ngModel"
+						      name="time-grain"
+						      id="input-time-grain"
+						      placeholder="Please select a Time Grain"
+						      autofocus
+						      [items]="timeGrain"
+						      bindLabel="name",
+						      bindValue="value"
+						      [required]="true"
+						      [attr.aria-invalid]="time_grain.invalid && time_grain.touched ? true : null">
+						    </ng-select>
+						    <ng-container *ngIf="time_grain.invalid && time_grain.touched">
+						      <p class="error-message" *ngIf="time_grain.errors?.required">Time Column is required!</p>
+						      <p class="error-message" *ngIf="time_grain.errors?.pattern">Time Column should be selected!</p>
+						    </ng-container>
+						  </div>
+
+						  <div class="form-control-group">
+						    <label class="label" for="input-time-range">Time Range</label>
+						    <input nbInput
+						      fullWidth
+						      [(ngModel)]="data.dsl.data.time_range"
+						      #time_range="ngModel"
+						      name="time-range"
+						      id="input-time-range"
+						      placeholder="Please select a Time Range"
+						      autofocus
+						      [required]="true"
+						      [nbDatepicker]="timeRangePicker"
+						      [attr.aria-invalid]="time_range.invalid && time_range.touched ? true : null" />
+					      <nb-rangepicker #timeRangePicker></nb-rangepicker>
+						    <ng-container *ngIf="time_range.invalid && time_range.touched">
+						      <p class="error-message" *ngIf="time_range.errors?.required">Time Column is required!</p>
+						      <p class="error-message" *ngIf="time_range.errors?.pattern">Time Column should be selected!</p>
+						    </ng-container>
+						  </div>
+					  </nb-accordion-item-body>
+					</nb-accordion-item>
+
+					<!-- Query -->
+					<nb-accordion-item *ngIf="checkType(['area', 'bar', 'big-number', 'big-number-total', 'histogram', 'line', 'map', 'multi-line', 'pie', 'world-map'], data.dsl.details.type)">
+					  <nb-accordion-item-header>Query</nb-accordion-item-header>
+					  <nb-accordion-item-body>
+					  	
+					  	<!-- TODO: Agg function enclose fields, Agg functions get added to extraColumns  -->
+					  	<div class="form-control-group" *ngIf="checkType(['area', 'bar', 'big-number', 'big-number-total', 'line', 'multi-line', 'pie', 'world-map'], data.dsl.details.type)">
+						    <label class="label" for="input-metrics">Metrics</label>
+						    <ng-select
+						    	nbInput
+						      fullWidth
+						      [(ngModel)]="data.dsl.data.metrics"
+						      #metrics="ngModel"
+						      name="metrics"
+						      id="input-metrics"
+						      placeholder="Please select Metrics"
+						      autofocus
+						      [required]="true"
+						      [attr.aria-invalid]="metrics.invalid && metrics.touched ? true : null">
+						      <ng-option *ngFor="let field of loadFields() | async" value="field.name">{{field.string}}</ng-option>
+						      <ng-option value="AVG"><nb-icon icon="agg" pack="dashboard"></nb-icon> AVG</ng-option>
+						      <ng-option value="COUNT"><nb-icon icon="agg" pack="dashboard"></nb-icon> COUNT</ng-option>
+						      <ng-option value="COUNT_DISTINCT"><nb-icon icon="agg" pack="dashboard"></nb-icon> COUNT_DISTINCT</ng-option>
+						      <ng-option value="MAX"><nb-icon icon="agg" pack="dashboard"></nb-icon> MAX</ng-option>
+						      <ng-option value="MIN"><nb-icon icon="agg" pack="dashboard"></nb-icon> MIN</ng-option>
+						      <ng-option value="SUM"><nb-icon icon="agg" pack="dashboard"></nb-icon> SUM</ng-option>
+						    </ng-select>
+						    <ng-container *ngIf="metrics.invalid && metrics.touched">
+						      <p class="error-message" *ngIf="metrics.errors?.required">Metrics is required!</p>
+						      <p class="error-message" *ngIf="metrics.errors?.pattern">Metrics should be selected!</p>
+						    </ng-container>
+						  </div>
+
+						  <div class="form-control-group" *ngIf="checkType(['histogram'], data.dsl.details.type)">
+						    <label class="label" for="input-numeric-columns">Numeric Columns</label>
+						    <ng-select
+						    	nbInput
+						      fullWidth
+						      [(ngModel)]="data.dsl.data.numeric_columns"
+						      #numeric_columns="ngModel"
+						      name="numeric-columns"
+						      id="input-numeric-columns"
+						      placeholder="Please select a Numeric Column"
+						      autofocus
+						      [items]="loadFields() | async"
+						      bindLabel="string"
+						      bindValue="name"
+						      [required]="true"
+						      [attr.aria-invalid]="numeric_columns.invalid && numeric_columns.touched ? true : null">
+						    </ng-select>
+						    <ng-container *ngIf="numeric_columns.invalid && numeric_columns.touched">
+						      <p class="error-message" *ngIf="numeric_columns.errors?.required">Numeric Columns is required!</p>
+						      <p class="error-message" *ngIf="numeric_columns.errors?.pattern">Numeric Columns should be selected!</p>
+						    </ng-container>
+						  </div>
+
+						  <div class="form-control-group" *ngIf="checkType(['area', 'bar', 'big-number', 'big-number-total', 'histogram', 'line', 'multi-line', 'map', 'pie', 'world-map'], data.dsl.details.type)">
+						    <label class="label" for="input-filters">Filters</label>
+						    <ng-select
+						      fullWidth
+						      [(ngModel)]="data.dsl.data.filters"
+						      #filters="ngModel"
+						      name="filters"
+						      id="input-filters"
+						      placeholder="Please select Filters"
+						      autofocus
+						      [items]
+						      [required]="false"
+						      [attr.aria-invalid]="filters.invalid && filters.touched ? true : null">
+						      <ng-option *ngFor="let field of extraColumns" value="field.name">{{field.string}}</ng-option>
+						      <ng-option *ngFor="let field of (loadFields() | async)" value="field.name">{{field.string}}</ng-option>
+						    </ng-select>
+						    <ng-container *ngIf="filters.invalid && filters.touched">
+						      <p class="error-message" *ngIf="filters.errors?.required">Filters is required!</p>
+						      <p class="error-message" *ngIf="filters.errors?.pattern">Filters should be selected!</p>
+						    </ng-container>
+						  </div>
+
+						  <div class="form-control-group" *ngIf="checkType(['bar'], data.dsl.details.type)">
+						    <label class="label" for="input-series">Series</label>
+						    <ng-select
+						    	nbInput
+						      fullWidth
+						      [(ngModel)]="data.dsl.data.series"
+						      #series="ngModel"
+						      name="series"
+						      id="input-series"
+						      placeholder="Please select columns for the Series"
+						      autofocus
+						      [items]="loadFields() | async"
+						      bindLabel="string"
+						      bindValue="name"
+						      [required]="false"
+						      [attr.aria-invalid]="series.invalid && series.touched ? true : null">
+						    </ng-select>
+						    <ng-container *ngIf="series.invalid && series.touched">
+						      <p class="error-message" *ngIf="series.errors?.required">Series is required!</p>
+						      <p class="error-message" *ngIf="series.errors?.pattern">Series should be selected!</p>
+						    </ng-container>
+						  </div>
+
+						  <div class="form-control-group" *ngIf="checkType(['bar'], data.dsl.details.type)">
+						    <label class="label" for="input-breakdown">Breakdown</label>
+						    <ng-select
+						    	nbInput
+						      fullWidth
+						      [(ngModel)]="data.dsl.data.breakdown"
+						      #breakdown="ngModel"
+						      name="breakdown"
+						      id="input-breakdown"
+						      placeholder="Please select columns for the Breakdown"
+						      autofocus
+						      [items]="loadFields() | async"
+						      bindLabel="string"
+						      bindValue="name"
+						      [required]="false"
+						      [attr.aria-invalid]="breakdown.invalid && breakdown.touched ? true : null">
+						    </ng-select>
+						    <ng-container *ngIf="breakdown.invalid && breakdown.touched">
+						      <p class="error-message" *ngIf="breakdown.errors?.required">Breakdown is required!</p>
+						      <p class="error-message" *ngIf="breakdown.errors?.pattern">Breakdown should be selected!</p>
+						    </ng-container>
+						  </div>
+
+						  <div class="form-control-group" *ngIf="checkType(['area', 'bar', 'histogram', 'line', 'map', 'pie'], data.dsl.details.type)">
+						    <label class="label" for="input-group-by">Group By</label>
+						    <ng-select
+						    	nbInput
+						      fullWidth
+						      [(ngModel)]="data.dsl.data.group_by"
+						      #group_by="ngModel"
+						      name="group-by"
+						      id="input-group-by"
+						      placeholder="Please select a fields to Group By"
+						      autofocus
+						      [items]="loadFields() | async"
+						      bindLabel="string"
+						      bindValue="name"
+						      [required]="false"
+						      [attr.aria-invalid]="group_by.invalid && group_by.touched ? true : null">
+						    </ng-select>
+						    <ng-container *ngIf="group_by.invalid && group_by.touched">
+						      <p class="error-message" *ngIf="group_by.errors?.required">Group By is required!</p>
+						      <p class="error-message" *ngIf="group_by.errors?.pattern">Group By should be selected!</p>
+						    </ng-container>
+						  </div>
+
+						  <!-- <div class="form-control-group">
+						    <label class="label" for="input-columns">Columns</label>
+						    <ng-select
+						    	nbInput
+						      fullWidth
+						      [(ngModel)]="data.dsl.data.columns"
+						      #columns="ngModel"
+						      name="columns"
+						      id="input-columns"
+						      placeholder="Please select Columns to Return"
+						      autofocus
+						      [items]="loadFields() | async"
+						      bindLabel="string"
+						      bindValue="name"
+						      [required]="false"
+						      [attr.aria-invalid]="columns.invalid && columns.touched ? true : null">
+						    </ng-select>
+						    <ng-container *ngIf="columns.invalid && columns.touched">
+						      <p class="error-message" *ngIf="columns.errors?.required">Columns is required!</p>
+						      <p class="error-message" *ngIf="columns.errors?.pattern">Columns should be selected!</p>
+						    </ng-container>
+						  </div> -->
+
+						  <div class="form-control-group" *ngIf="checkType(['area', 'bar', 'line'], data.dsl.details.type)">
+						    <label class="label" for="input-series-limit">Series Limit</label>
+						    <ng-select 
+						      fullWidth
+						      [(ngModel)]="data.dsl.data.series_limit"
+						      #series_limit="ngModel"
+						      name="series-limit"
+						      id="input-series-limit"
+						      placeholder="Please select a Series Limit"
+						      autofocus
+						      [required]="true"
+						      [attr.aria-invalid]="series_limit.invalid && series_limit.touched ? true : null">
+						      <ng-option value="0">0</ng-option>
+						      <ng-option value="5">5</ng-option>
+						      <ng-option value="10">10</ng-option>
+						      <ng-option value="25">25</ng-option>
+						      <ng-option value="50">50</ng-option>
+						      <ng-option value="100">100</ng-option>
+						      <ng-option value="500">500</ng-option>
+						    </ng-select>
+						    <ng-container *ngIf="series_limit.invalid && series_limit.touched">
+						      <p class="error-message" *ngIf="series_limit.errors?.required">Series Limit is required!</p>
+						      <p class="error-message" *ngIf="series_limit.errors?.pattern">Series Limit should be selected!</p>
+						    </ng-container>
+						  </div>
+
+						  <div class="form-control-group" *ngIf="checkType(['area', 'bar', line], data.dsl.details.type)">
+						    <label class="label" for="input-sort-by">Sort By</label>
+						    <ng-select 
+						      fullWidth
+						      [(ngModel)]="data.dsl.data.sort_by"
+						      #sort_by="ngModel"
+						      name="sort-by"
+						      id="input-sort-by"
+						      placeholder="Please select columns to Sort By"
+						      autofocus
+						      [items]="loadFields() | async"
+						      bindLabel="string"
+						      bindValue="name"
+						      [required]="true"
+						      [attr.aria-invalid]="sort_by.invalid && sort_by.touched ? true : null">
+						    </ng-select>
+						    <ng-container *ngIf="sort_by.invalid && sort_by.touched">
+						      <p class="error-message" *ngIf="sort_by.errors?.required">Sort By is required!</p>
+						      <p class="error-message" *ngIf="sort_by.errors?.pattern">Sort By should be selected!</p>
+						    </ng-container>
+
+						    <nb-checkbox
+						    	[checked]="data.dsl.data.sort_desc"
+						    	[(ngModel)]="data.dsl.data.sort_desc"
+						    	#sort_desc="ngModel"
+						    	(checkedChange)="toggle($event)">
+						    	<label>Sort Descending</label>
+						    </nb-checkbox>
+
+						    <nb-checkbox
+						    	[checked]="data.dsl.data.contribution"
+						    	[(ngModel)]="data.dsl.data.contribution"
+						    	#sort_desc="ngModel"
+						    	(checkedChange)="toggle($event)">
+						    	<label>Contribution</label>
+						    </nb-checkbox>
+						  </div>
+
+						  <div class="form-control-group" *ngIf="checkType(['area', 'bar', 'histogram', 'line', 'pie'], data.dsl.details.type)">
+						    <label class="label" for="input-row-limit">Row Limit</label>
+						    <nb-select 
+						      fullWidth
+						      [(ngModel)]="data.dsl.data.row_limit"
+						      #row_limit="ngModel"
+						      name="row-limit"
+						      id="input-row-limit"
+						      placeholder="Please select a Row Limit"
+						      autofocus
+						      [required]="true"
+						      [attr.aria-invalid]="row_limit.invalid && row_limit.touched ? true : null"
+						      [(selected)]="data.dsl.row_limit">
+						      <ng-option value="10">10</ng-option>
+						      <ng-option value="50">50</ng-option>
+						      <ng-option value="100">100</ng-option>
+						      <ng-option value="250">250</ng-option>
+						      <ng-option value="500">500</ng-option>
+						      <ng-option value="1000">1000</ng-option>
+						      <ng-option value="5000">5000</ng-option>
+						      <ng-option value="10000">10000</ng-option>
+						      <ng-option value="50000">50000</ng-option>
+						    </nb-select>
+						    <ng-container *ngIf="row_limit.invalid && row_limit.touched">
+						      <p class="error-message" *ngIf="row_limit.errors?.required">Row Limit is required!</p>
+						      <p class="error-message" *ngIf="row_limit.errors?.pattern">Row Limit should be selected!</p>
+						    </ng-container>
+						  </div>
+
+					  </nb-accordion-item-body>
+					</nb-accordion-item>
+
+					<!-- Chart Options -->
+					<nb-accordion-item *ngIf="checkType(['area', 'bar', 'big-number', 'line', 'big-number-total', 'histogram', 'line', 'multi-line', 'pie'], data.dsl.details.type)">
+					  <nb-accordion-item-header>Chart Options</nb-accordion-item-header>
+					  <nb-accordion-item-body>
+					  </nb-accordion-item-body>
+					</nb-accordion-item>
+
+					<!-- X-Axis -->
+					<nb-accordion-item *ngIf="checkType(['area', 'bar', 'line', 'multi-line'], data.dsl.details.type)">
+					  <nb-accordion-item-header>X-Axis</nb-accordion-item-header>
+					  <nb-accordion-item-body>
+					  </nb-accordion-item-body>
+					</nb-accordion-item>
+
+					<!-- Y-Axis -->
+					<nb-accordion-item *ngIf="checkType(['area', 'bar', 'line', 'multi-line'], data.dsl.details.type)">
+					  <nb-accordion-item-header>Y-Axis</nb-accordion-item-header>
+					  <nb-accordion-item-body>
+					  </nb-accordion-item-body>
+					</nb-accordion-item>
+
+					<!-- Annotations and Layers -->
+					<nb-accordion-item>
+					  <nb-accordion-item-header>Annotations and Layers</nb-accordion-item-header>
+					  <nb-accordion-item-body>
+					  </nb-accordion-item-body>
+					</nb-accordion-item>
+
+					<!-- Options -->
+					<nb-accordion-item *ngIf="checkType(['big-number', 'big-number-total'], data.dsl.details.type)">
+					  <nb-accordion-item-header>Options</nb-accordion-item-header>
+					  <nb-accordion-item-body>
+					  </nb-accordion-item-body>
+					</nb-accordion-item>
+
+					<!-- Advanced Analytics -->
+					<nb-accordion-item *ngIf="checkType(['area', 'bar', 'line'], data.dsl.details.type)">
+					  <nb-accordion-item-header>Advanced Analytics</nb-accordion-item-header>
+					  <nb-accordion-item-body>
+					  </nb-accordion-item-body>
+					</nb-accordion-item>
+				</nb-accordion>
+			</nb-tab>
+			<nb-tab tabTitle="Customize">
+			</nb-tab>
+		</nb-tabset>
+
+	  <div class="form-control-group">
+	  	<button nbButton (click)="cancel($event)" status="danger">Cancel</button>
+	  	<button nbButton type="submit" status="success">Submit</button>
+	  </div>
+
+	</form>
+</div>
+<div class="col-8">
+	<!-- <board [model]="data.model" [dsl]="data.dsl"></board> -->
+</div>

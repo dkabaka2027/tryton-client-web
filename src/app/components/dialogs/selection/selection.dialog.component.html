@@ -1,0 +1,20 @@
+<nb-card>
+  <nb-card-header>
+  	{{ context.title }}
+ 		<p>{{ context.text }}</p>
+	</nb-card-header>
+  <nb-card-body>
+    <nb-radio-group [(ngModel)]="context.selected">
+      <nb-radio
+        *ngFor="let option of context.values"
+        [value]="option">
+        {{ option }}
+      </nb-radio>
+    </nb-radio-group>
+
+  </nb-card-body>
+  <nb-card-footer>
+  	<button nbButton (click)="context.okOnClick">{{context.ok}}</button>
+		<button nbButton (click)="context.cancelOnClick">{{context.cancel}}</button>
+  </nb-card-footer>
+</nb-card>

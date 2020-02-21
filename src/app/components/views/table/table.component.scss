@@ -1,0 +1,36 @@
+:host .table {
+	width: 100%;
+}
+:host .table .thead-dark th {
+	font-size: 12px;
+	vertical-align: middle;
+	text-align: center;
+}
+:host .table label.label {
+  padding: 0px;
+  vertical-align: middle;
+  width: 30px;
+  height: 30px;
+  margin: 0 !important;
+}
+:host .table .thead-dark, .table tbody {
+	width: 100%;
+	// display: inline-table;
+}
+:host .table tbody tr td {
+	font-size: 12px;
+}
+:host ul.pagination {
+	list-style: none;
+}
+:host ul.pagination:first-child {
+	float: left;
+}
+:host ul.pagination:last-child {
+	float: right;
+}
+:host ul.pagination li.page-item {
+	// padding: 15px;
+	// background: #FFFFFF;
+	font-weight: bold;
+}

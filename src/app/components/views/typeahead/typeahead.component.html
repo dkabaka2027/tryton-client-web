@@ -1,0 +1,14 @@
+<div class="form-control-group">
+	<input
+		nbInput
+		fullWidth
+		ngxTypeahead
+		type="text"
+		name="search"
+		placeholder="Search for {{model}}..."
+		[value]="data"
+		[taUrl]="url"
+		[taParams]="params"
+		[taApiMethod]="post"
+		(taSelected)="select($event)" />
+</div>

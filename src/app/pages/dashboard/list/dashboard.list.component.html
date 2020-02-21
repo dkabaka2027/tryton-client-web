@@ -1,0 +1,18 @@
+<ng-container *ngIf="widgets.length == 0">
+	<div>
+		<img height="200px" width="200px" src="/assets/images/health-fabric-logo-big.svg" />
+		<h2>Welcome to the Health Fabric!</h2>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		<div class="form-control-group">
+			<button nbButton (click)="openConfiguration($event)" status="basic"><nb-icon icon="settings-outline"></nb-icon> Startup Configuration</button>
+			<a nbButton [routerLink]="['dashboard', 'create']" status="basic"><nb-icon icon="plus-outline"></nb-icon> Add Widget &raquo;</a>
+		</div>
+	</div>
+</ng-container>
+<ng-container *ngIf="widgets.length > 0">
+	<gridster [options]="option">
+		<gridster-item *ngFor="let item of items" [item]="item">
+			<!-- <board [options]="item" /> -->
+		</gridster-item>
+	</gridster>
+</ng-container>

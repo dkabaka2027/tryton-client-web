@@ -1,0 +1,86 @@
+<ng-template #dialog let-data let-ref="dialogRef">
+	<nb-card>
+		<nb-card-header>
+			Delete
+		</nb-card-header>
+		<nb-card-body>
+			Are you sure you want to delete {{model}} of ID {{id}}?
+		</nb-card-body>
+		<nb-card-footer>
+			<button nbButton status="success" (click)="submit(id)">OK</button>
+			<button nbButton status="danger" (click)="cancel($event)">Cancel</button>
+		</nb-card-footer>
+	</nb-card>
+</ng-template>
+<div class="page-title">
+	<h2>Listing <span>{{model}}</span></h2>
+</div>
+<nb-card>
+	<nb-card-body>
+		<nb-actions [size]="size" fullWidth>
+			<nb-action *ngFor="let action of acts" icon="{{action.icon}}" (click)="action.click" title="{{action.name}}" [(link)]="action.link"></nb-action>
+		</nb-actions>
+	</nb-card-body>
+	<nb-card-footer>
+		<form #search>
+			<input nbInput fullWidth type="text" name="search" placeholder="Search for {{model}}..." />
+			<ul class="results" *ngIf="searchResults.length == 0">
+				<li class="result" *ngFor="let result of searchResults">{{result.name}}</li>
+			</ul>
+		</form>
+	</nb-card-footer>
+</nb-card>
+<ng-container>
+	<div *ngIf="isLoading" class="loading" style="display: table; width: 100%; margin: 0; text-align: center;">
+		<nb-icon icon="loading" pack="misc" style="display: table-cell; vertical-align: middle; text-align: center;"></nb-icon>
+	</div>
+	<div *ngIf="!isLoading" class="table-responsive">
+		<table #table class="table table-striped table-bordered table-hover table-sm">
+			<thead class="thead-dark">
+				<tr>
+					<th class="selection"><nb-checkbox style="vertical-align: middle;width: 29px;height: 29px;display: inline-block;margin: 0px !important;padding: 0 !important;" (checkedChange)="selectAll($event)"></nb-checkbox></th>
+					<th *ngFor="let column of columns"><span>{{column.title}}</span></th>
+					<th><span>Actions</span></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let item of data" [ngClass]="{ 'table-info': selected[item.id] == item.id }">
+					<td style="width: 30px !important;"><nb-checkbox style="width: 29px; height: 29px; vertical-align: middle; display: inline-block;" (checked)="selected[item.id] == item.id" (checkedChange)="select(item.id)"></nb-checkbox></td>
+					<td *ngFor="let column of columns">
+						<span *ngIf="column.type !== 'button'" (click)="openView(item.id)">{{item[column.key]}}</span>
+						<span *ngIf="column.type === 'button'">
+							<button nbButton status="basic" size="tiny" ngClass="decoder.decode(column.state)" (click)="executeAction(item.id, column.action, column.node_type)">{{column.title}}</button>
+						</span>
+					</td>
+					<td>
+						<!-- <a nbButton status="info" size="tiny" [routerLink]="[model,item.id]"><nb-icon icon="eye-outline"></nb-icon></a> -->
+						<a nbButton status="warning" size="tiny" [routerLink]="[item.id,'edit']"><nb-icon icon="edit-outline"></nb-icon></a>
+						<a nbButton status="danger" size="tiny" (click)="onDeleteConfirm(dialog, item.id)"><nb-icon icon="trash-2-outline"></nb-icon></a>
+					</td>
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td class="pull-left">
+						<ul *ngIf="limits" class="pagination">
+							<li class="page-item"><a nbButton size="tiny" [disabled]="count/25 < 1" status="basic" [routerLink]="[]" [queryParams]="{page: 1, limit: 25}">25</a></li>
+							<li class="page-item"><a nbButton size="tiny" [disabled]="count/50 < 1" status="basic" [routerLink]="[]" [queryParams]="{page: 1, limit: 50}">50</a></li>
+							<li class="page-item"><a nbButton size="tiny" [disabled]="count/100 < 1" status="basic" [routerLink]="[]" [queryParams]="{page: 1, limit: 100}">100</a></li>
+						</ul>
+					</td>
+					<td class="pull-right">
+						<button nbButton size="tiny"  (click)="loadMore($event)">More</button>
+					</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+	<!-- <ng-container class="buttons">
+		<ul *ngIf="pagination" class="pagination pull-left">
+			<li class="page-item"><a nbButton size="tiny" [disabled]="ps.length == 0" status="basic" [routerLink]="[]" [queryParams]="{page: page == 1 ? page:page-1, limit: limit}">&laquo;</a></li>
+			<li class="page-item"><a nbButton size="tiny" status="basic" *ngFor="let p of ps" [routerLink]="[]" [queryParams]="{page: p, limit: limit}">{{p}}</a></li>
+			<li class="page-item"><a nbButton size="tiny" [disabled]="ps.length" status="basic" [routerLink]="[]" [queryParams]="{page: page+1, limit: limit}">&raquo;</a></li>
+		</ul>
+	</ng-container> -->
+	<!-- <ng2-smart-table [settings]="settings" [source]="source" (deleteConfirm)="onDeleteConfirm($event)"></ng2-smart-table> -->
+</ng-container>

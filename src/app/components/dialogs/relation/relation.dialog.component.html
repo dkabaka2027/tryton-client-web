@@ -1,0 +1,16 @@
+<nb-card>
+	<nb-card-header>
+		<h5>{{edit ? 'Creating': 'Viewing'}} {{model}}</h5>
+		<nb-alert *ngFor="let error of errors" accent status="danger" closable (close)="onClose()">
+			{{error}}
+		</nb-alert>
+	</nb-card-header>
+	<nb-card-body>
+		<fc-form *ngIf="!isView" [model]="model" [data]="data" [field]="field" [buttons]="false"></fc-form>
+		<fc-view *ngIf="isView" [model]="model" [field]="field" [id]="id"></fc-view>
+	</nb-card-body>
+	<nb-card-footer>
+		<button nbButton type="submit" status="success" (click)="submit($event)">{{edit ? 'Creating': 'Viewing'}}</button>
+		<button nbButton status="danger" (click)="cancel($event)">Cancel</button>
+	</nb-card-footer>
+</nb-card>

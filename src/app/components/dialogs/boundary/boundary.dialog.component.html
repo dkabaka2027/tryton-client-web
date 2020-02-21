@@ -1,0 +1,28 @@
+<nb-card>
+	<nb-card-header>
+		<div class="form-control-group">
+			<input
+				#search
+				nbInput
+				fullWidth
+				placeholder="Search for location"
+				type="text"
+				[(ngModel)]="location"
+				#location="ngModel" />
+		</div>
+		<ng-container *ngIf="locations.length !== 0">
+			<ul>
+				<li *ngFor="let place in locations" (click)="selectPlace(place)">{{place.name}}</li>
+			</ul>
+		</ng-container>
+	</nb-card-header>
+	<nb-card-body>
+		<agm-map [latitude]="selectedLocation.geometry.location.lat()" [longitude]="selectedLocation.geometry.location.long()" (mapClick)="placeMarker($event)">
+			<agm-marker *ngFor="let marker in placedMarkers" [latitude]="marker.latitude" [longitude]="marker.longitude" (markerClick)="removeMarker($event)"></agm-marker>
+		</agm-map>
+	</nb-card-body>
+	<nb-card-footer>
+		<button nbButton (click)="submit(location)">Submit</button>
+		<button nbButton (click)="cancel()">Cancel</button>
+	</nb-card-footer>
+</nb-card>

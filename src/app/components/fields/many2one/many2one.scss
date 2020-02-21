@@ -1,0 +1,18 @@
+:host .autocomplete {
+	padding: 10px 5px 5px 5px;
+	background: #FFFFFF;
+}
+:host .autocomplete ul {
+	list-style: none;
+	padding: 10px 0 0 0;
+}
+
+:host .autocomplete ul:hover, :host .autocomplete ul:focus {
+	background: #F2F1EF;
+}
+
+:host .autocomplete ul li {
+	padding: 0px;
+	margin-right: 5px;
+	display: inline-block; 
+}

@@ -1,0 +1,13 @@
+<nb-card>
+	<nb-card-header>
+		{{title}}
+	</nb-card-header>
+	<nb-card-body>
+		<!-- Form Layout -->
+		<!-- Wizard Layout -->
+	</nb-card-body>
+	<nb-card-footer>
+		<!-- TODO: Process button icons into Config -->
+		<button nbButton *ngFor="let button of buttons" size="small" [status]="button.state == end ? 'danger':'success'" [ngClass]="decoder.decode(button.states)" ><nb-icon icon="button.icon"></nb-icon> {{button.string}}</button>
+	</nb-card-footer>
+</nb-card>

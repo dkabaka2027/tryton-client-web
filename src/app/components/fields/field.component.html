@@ -1,0 +1,31 @@
+<binary *ngIf="field.type == 'binary'" [field]="field" [data]="data"></binary>
+<boolean *ngIf="field.type == 'boolean'" [field]="field" [data]="data"></boolean>
+<boundary *ngIf="field.type == 'boundary'" [field]="field" [data]="data"></boundary>
+<char *ngIf="field.type == 'char'" [field]="field" [data]="data"></char>
+<date *ngIf="field.type == 'date'" [field]="field" [data]="data"></date>
+<datetime *ngIf="field.type == 'datetime'" [field]="field" [data]="data"></datetime>
+<dict *ngIf="field.type == 'dict'" [field]="field" [data]="data"></dict>
+<float *ngIf="field.type == 'float'" [field]="field" [data]="data"></float>
+<float *ngIf="field.type == 'float'" [field]="field" [data]="data"></float>
+<group *ngIf="field.type == 'group'">
+	<field *ngFor="let child of field.children" [field]="child" [data]="data"></field>
+</group>
+<integer *ngIf="field.type == 'integer'" [field]="field" [data]="data"></integer>
+<many2many *ngIf="field.type == 'many2many'" [field]="field" [data]="data"></many2many>
+<many2one *ngIf="field.type == 'many2one'" [field]="field" [data]="data"></many2one>
+<nb-tabset fullWidth *ngIf="field.type == 'notebook'">
+	<nb-tab *ngFor="let page of field.children" [tabTitle]="page.string">
+		<field *ngFor="let child of page.children" [field]="child" [data]="data"></field>
+	</nb-tab>
+</nb-tabset>
+<newline *ngIf="field.type == 'newline'"></newline>
+<numeric *ngIf="field.type == 'numeric'" [field]="field" [data]="data"></numeric>
+<one2many *ngIf="field.type == 'one2many'" [field]="field" [data]="data"></one2many>
+<one2one *ngIf="field.type == 'one2one'" [field]="field" [data]="data"></one2one>
+<point *ngIf="field.type == 'point'" [field]="field" [data]="data"></point>
+<reference *ngIf="field.type == 'reference'" [field]="field" [data]="data"></reference>
+<selection *ngIf="field.type == 'selection'" [field]="field" [data]="data"></selection>
+<text *ngIf="field.type == 'text'" [field]="field" [data]="data"></text>
+<time *ngIf="field.type == 'time'" [field]="field" [data]="data"></time>
+<timedelta *ngIf="field.type == 'time'" [field]="field" [data]="data"></timedelta>
+

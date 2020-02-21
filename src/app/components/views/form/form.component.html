@@ -1,0 +1,25 @@
+<div class="page-title">
+	<a routerLink="/admin/model/{{model}}"><nb-icon icon="arrow-back-outline"></nb-icon></a>
+	<h2>{{edit ? 'Editing' : 'Creating'}} <span>{{model}}</span> {{payload != null || payload != undefined ? payload.id : ''}}</h2>
+</div>
+<ng-container *ngIf="errors.length !== 0">
+	<nb-alert  *ngFor="let error of errors">
+		{{error}}
+	</nb-alert>
+</ng-container>
+<div *ngIf="isLoading" class="loading" style="display: table; width: 100%; margin: 0; text-align: center;">
+	<nb-icon icon="loading" pack="misc" style="display: table-cell; vertical-align: middle; text-align: center;"></nb-icon>
+</div>
+<form (ngSubmit)="submit()" *ngIf="!isLoading">
+	<!-- {{form | json}} -->
+	<field *ngFor="let item of form.elements" [field]="item" [data]="payload[item.name]"></field>
+	<div class="form-control-group" *ngIf="buttons">
+		<button
+			nbButton
+			status="success"
+			type="submit"
+			[disabled]="submitted || !form.valid"
+      [class.btn-pulse]="submitted">{{edit ? 'Update' : 'Create'}}</button>
+		<a nbButton status="danger" (click)="cancel()">Cancel</a>
+	</div>
+</form>
